@@ -16,12 +16,12 @@ void delete_tree(Node *root) {
     }
 }
 
-Node* & bst_build(std::vector<int>& numbers){
+Node* bst_build(std::vector<int>& numbers){
     Node *root = new Node;
     root->value = numbers[0];
     Node *tmp = root;
     for(auto i : numbers){
-        if(i > root->value) {
+        if(i > tmp->value) {
             tmp->right = new Node;
             tmp->right->value = i;
             tmp = tmp->right;
@@ -36,15 +36,18 @@ Node* & bst_build(std::vector<int>& numbers){
 }
 
 void bst_output(Node* &tmp, std::vector<int>& sorted){
-    bst_output(tmp->left, sorted);
-    sorted.push_back(tmp->value);
-    bst_output(tmp->right, sorted);
+    if(tmp != nullptr){
+        bst_output(tmp->left, sorted);
+        sorted.push_back(tmp->value);
+        bst_output(tmp->right, sorted);
+    }
+    return;
 }
 
 void bst(std::vector<int>& numbers){
     Node* tmp = bst_build(numbers);
-    Node* tmp_ = bst_build(numbers);
-    bst_build(numbers);
+    Node* tmp_ = tmp;
+    numbers.clear();
     bst_output(tmp, numbers);
     delete_tree(tmp_);
 }
