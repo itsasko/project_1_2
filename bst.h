@@ -15,22 +15,35 @@ void delete_tree(Node *root) {
         delete root;
     }
 }
+void bst_insert(Node *root, int element){
+    if(element <= root->value){
+        if(root->left == nullptr) {
+            Node* tmp = new Node;
+            root->left = tmp;
+            root->left->value = element;
+        }
+        else{
+            bst_insert(root->left, element);
+        }
+    }
+    if(element > root->value){
+        if(root->right == nullptr) {
+            Node* tmp = new Node;
+            root->right = tmp;
+            root->right->value = element;
+        }
+        else{
+            bst_insert(root->right, element);
+        }
+    }
+}
 
 Node* bst_build(std::vector<int>& numbers){
     Node *root = new Node;
     root->value = numbers[0];
     Node *tmp = root;
-    for(auto i : numbers){
-        if(i > tmp->value) {
-            tmp->right = new Node;
-            tmp->right->value = i;
-            tmp = tmp->right;
-        }
-        else {
-            tmp->left = new Node;
-            tmp->left->value = i;
-            tmp = tmp->left;
-        }
+    for(int i = 1; i < numbers.size(); i++){
+        bst_insert(root, numbers[i]);
     }
     return root;
 }
