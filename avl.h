@@ -2,11 +2,9 @@
 #define PROJECT_1_2_AVL_H
 
 struct Node_avl {
-    Node_avl(int x): value(x) {}
-    int value;
+    int value, height;
     Node_avl *left = nullptr;
     Node_avl *right = nullptr;
-    int height;
 };
 
 void delete_tree(Node_avl *root) {
@@ -49,14 +47,14 @@ void ins_tree(Node_avl* tmp, int x){
         else tmp->left = new Node_avl(x);
     }
 } */
-bool avl_balanced(){
-
+bool avl_balanced(Node_avl* &tmp){
+    return tmp->height == 0 || tmp->height == 1 || tmp->height == -1;
 }
 
-void avl_insert(Node *root, int element){
+void avl_insert(Node_avl *root, int element){
     if(element <= root->value){
         if(root->left == nullptr) {
-            Node* tmp = new Node;
+            Node_avl* tmp = new Node_avl;
             root->left = tmp;
             root->left->value = element;
             if(!avl_balanced); // rotate
@@ -67,7 +65,7 @@ void avl_insert(Node *root, int element){
     }
     if(element > root->value){
         if(root->right == nullptr) {
-            Node* tmp = new Node;
+            Node_avl* tmp = new Node_avl;
             root->right = tmp;
             root->right->value = element;
             if(!avl_balanced); // rotate
@@ -78,17 +76,17 @@ void avl_insert(Node *root, int element){
     }
 }
 
-Node* avl_build(std::vector<int>& numbers){
-    Node *root = new Node;
+Node_avl* avl_build(std::vector<int>& numbers){
+    Node_avl *root = new Node_avl;
     root->value = numbers[0];
-    Node *tmp = root;
+    Node_avl *tmp = root;
     for(int i = 1; i < numbers.size(); i++){
         avl_insert(root, numbers[i]);
     }
     return root;
 }
 
-void avl_output(Node* &tmp, std::vector<int>& sorted){
+void avl_output(Node_avl* &tmp, std::vector<int>& sorted){
     if(tmp != nullptr){
         avl_output(tmp->left, sorted);
         sorted.push_back(tmp->value);
@@ -98,8 +96,8 @@ void avl_output(Node* &tmp, std::vector<int>& sorted){
 }
 
 void avl(std::vector<int>& numbers){
-    Node* tmp = avl_build(numbers);
-    Node* tmp_ = tmp;
+    Node_avl* tmp = avl_build(numbers);
+    Node_avl* tmp_ = tmp;
     numbers.clear();
     avl_output(tmp, numbers);
     delete_tree(tmp_);
