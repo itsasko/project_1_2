@@ -14,39 +14,6 @@ void delete_tree(Node_avl *root) {
         delete root;
     }
 }
-/* Node_avl* avl_build(std::vector<int>& numbers){
-    Node_avl *root = new Node_avl;
-    root->value = numbers[0];
-    Node_avl *tmp = root;
-    for(auto i : numbers){
-        if(i > tmp->value) {
-            tmp->right = new Node_avl;
-            tmp->right->value = i;
-            tmp = tmp->right;
-        }
-        else {
-            tmp->left = new Node_avl;
-            tmp->left->value = i;
-            tmp = tmp->left;
-        }
-    }
-    return root;
-} */
-/*
-void ins_tree(Node_avl* tmp, int x){
-    if(x > tmp->value){
-        if(tmp->right != nullptr){
-            ins_tree(tmp->right, x);
-        }
-        else tmp->right = new Node_avl(x);
-    }
-    else{ // x <= tmp->value
-        if(tmp->left != nullptr){
-            ins_tree(tmp->left, x);
-        }
-        else tmp->left = new Node_avl(x);
-    }
-} */
 int avl_balanced(Node_avl* &tmp){
     int difference = tmp->left->height - tmp->right->height;
     return difference;
