@@ -27,7 +27,7 @@ int avl_height_calc(Node_avl* tmp){
 void left_rotation(Node_avl* &tmp, int subtree){ // subtree > 1 => left-right; subtree < -1 => left-left
     if(subtree > 1){
         Node_avl* x = tmp->right;
-        Node_avl* y = tmp->right->right;            // right-left rotation
+        Node_avl* y = tmp->right->right;            // left-left rotation
         Node_avl* y_left = y->left;
         tmp->right = y;
         y->left = x;
