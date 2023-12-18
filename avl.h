@@ -95,7 +95,9 @@ void avl_insert(Node_avl *root, int element){
             root->right->value = element;
             root->height = avl_height_calc(root);
             int balance = avl_balanced(root->right);
-            right_rotation(root, balance);
+            if(balance < -1 || balance > 1){
+                right_rotation(root, balance);
+            }
         } // right rotation
         else{
             avl_insert(root->right, element);
