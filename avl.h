@@ -15,7 +15,12 @@ void delete_tree(Node_avl *root) {
     }
 }
 int avl_balanced(Node_avl* tmp){
-    int difference = tmp->left->height - tmp->right->height;
+    int left_height, right_height;
+    if(tmp->left != nullptr) left_height = tmp->left->height;
+    else left_height = -1;
+    if(tmp->right != nullptr) right_height = tmp->right->height;
+    else right_height = -1;
+    int difference = left_height - right_height;
     return difference;
 }
 
