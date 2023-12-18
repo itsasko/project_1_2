@@ -2,7 +2,7 @@
 #define PROJECT_1_2_AVL_H
 
 struct Node_avl {
-    int value, height;
+    int value, height = 0;
     Node_avl *left = nullptr;
     Node_avl *right = nullptr;
 };
@@ -48,7 +48,12 @@ void ins_tree(Node_avl* tmp, int x){
     }
 } */
 bool avl_balanced(Node_avl* &tmp){
-    return tmp->height == 0 || tmp->height == 1 || tmp->height == -1;
+    // if left_subtree and right_subtree difference is in the range [-1, 1]
+
+}
+int avl_height_calc(Node_avl* tmp){
+    if (tmp == nullptr) return -1;
+    return std::max(avl_height_calc(tmp->left), avl_height_calc(tmp->right)) + 1;
 }
 
 void avl_insert(Node_avl *root, int element){
