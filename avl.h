@@ -14,7 +14,7 @@ void delete_tree(Node_avl *root) {
         delete root;
     }
 }
-int avl_balanced(Node_avl* &tmp){
+int avl_balanced(Node_avl* tmp){
     int difference = tmp->left->height - tmp->right->height;
     return difference;
 }
@@ -66,6 +66,7 @@ void avl_insert(Node_avl *root, int element){
         if(root->left == nullptr) {
             root->left = new Node_avl;
             root->left->value = element;
+            root->height = avl_height_calc(root);
             int balance = avl_balanced(root->left);
             if(balance < -1 || balance > 1){
                 left_rotation(root, balance);
@@ -79,6 +80,7 @@ void avl_insert(Node_avl *root, int element){
         if(root->right == nullptr) {
             root->right = new Node_avl;
             root->right->value = element;
+            root->height = avl_height_calc(root);
             int balance = avl_balanced(root->right);
             right_rotation(root, balance);
         } // right rotation
