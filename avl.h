@@ -50,8 +50,8 @@ void ins_tree(Node_avl* tmp, int x){
 int avl_balanced(Node_avl* &tmp){
     int difference = tmp->left->height - tmp->right->height;
     return difference;
-
 }
+
 int avl_height_calc(Node_avl* tmp){
     if (tmp == nullptr) return -1;
     return std::max(avl_height_calc(tmp->left), avl_height_calc(tmp->right)) + 1;
@@ -60,11 +60,11 @@ int avl_height_calc(Node_avl* tmp){
 void avl_insert(Node_avl *root, int element){
     if(element <= root->value){
         if(root->left == nullptr) {
-            Node_avl* tmp = new Node_avl;
-            root->left = tmp;
+            root->left = new Node_avl;
             root->left->value = element;
-            int balance = avl_balanced(root);
-            if(!(balance == 0 || balance == -1 || balance == 1)); // rotate
+            int balance = avl_balanced(root->left);
+            if(balance < -1); // left-left rotation
+            if(balance > 1); // left-right rotation
         }
         else{
             avl_insert(root->left, element);
@@ -72,11 +72,12 @@ void avl_insert(Node_avl *root, int element){
     }
     if(element > root->value){
         if(root->right == nullptr) {
-            Node_avl* tmp = new Node_avl;
-            root->right = tmp;
+            root->right = new Node_avl;
             root->right->value = element;
-            int balance = avl_balanced(root);
-            if(!(balance == 0 || balance == -1 || balance == 1)); // rotate
+            int balance = avl_balanced(root->right);
+            if(balance < -1); // right-left rotation
+            if(balance > 1); // right-right rotation
+
         }
         else{
             avl_insert(root->right, element);
