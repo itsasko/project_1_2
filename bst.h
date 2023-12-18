@@ -18,8 +18,7 @@ void delete_tree(Node *root) {
 void bst_insert(Node *root, int element){
     if(element <= root->value){
         if(root->left == nullptr) {
-            Node* tmp = new Node;
-            root->left = tmp;
+            root->left = new Node;
             root->left->value = element;
         }
         else{
@@ -28,8 +27,7 @@ void bst_insert(Node *root, int element){
     }
     if(element > root->value){
         if(root->right == nullptr) {
-            Node* tmp = new Node;
-            root->right = tmp;
+            root->right = new Node;
             root->right->value = element;
         }
         else{
