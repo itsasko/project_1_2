@@ -42,6 +42,24 @@ void left_rotation(Node_avl* &tmp, int subtree){ // subtree > 1 => left-right; s
         x->right = y_left;
     }
 }
+void right_rotation(Node_avl* &tmp, int subtree){ // subtree > 1 => right-right; subtree < -1 => right-left
+    if(subtree > 1){
+        Node_avl* x = tmp->right;
+        Node_avl* y = tmp->right->left;            // right-left rotation
+        Node_avl* y_right = y->right;
+        tmp->right = y;
+        y->right = x;
+        x->left = y_right;
+    }
+    else { //subtree < -1
+        Node_avl* x = tmp->left;
+        Node_avl* y = tmp->left->left;             // right-right rotation
+        Node_avl* y_right = y->right;
+        tmp->left = y;
+        y->right = x;
+        x->left = y_right;
+    }
+}
 
 void avl_insert(Node_avl *root, int element){
     if(element <= root->value){
@@ -62,10 +80,8 @@ void avl_insert(Node_avl *root, int element){
             root->right = new Node_avl;
             root->right->value = element;
             int balance = avl_balanced(root->right);
-            //if(balance < -1); // right-left rotation
-            //if(balance > 1); // right-right rotation
-
-        }
+            right_rotation(root, balance);
+        } // right rotation
         else{
             avl_insert(root->right, element);
         }
