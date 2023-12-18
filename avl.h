@@ -47,8 +47,9 @@ void ins_tree(Node_avl* tmp, int x){
         else tmp->left = new Node_avl(x);
     }
 } */
-bool avl_balanced(Node_avl* &tmp){
-    // if left_subtree and right_subtree difference is in the range [-1, 1]
+int avl_balanced(Node_avl* &tmp){
+    int difference = tmp->left->height - tmp->right->value;
+    return difference;
 
 }
 int avl_height_calc(Node_avl* tmp){
@@ -62,7 +63,8 @@ void avl_insert(Node_avl *root, int element){
             Node_avl* tmp = new Node_avl;
             root->left = tmp;
             root->left->value = element;
-            if(!avl_balanced); // rotate
+            int balance = avl_balanced(root);
+            if(!(balance == 0 || balance == -1 || balance == 1)); // rotate
         }
         else{
             avl_insert(root->left, element);
@@ -73,7 +75,8 @@ void avl_insert(Node_avl *root, int element){
             Node_avl* tmp = new Node_avl;
             root->right = tmp;
             root->right->value = element;
-            if(!avl_balanced); // rotate
+            int balance = avl_balanced(root);
+            if(!(balance == 0 || balance == -1 || balance == 1)); // rotate
         }
         else{
             avl_insert(root->right, element);
