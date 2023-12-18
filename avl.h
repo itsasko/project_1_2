@@ -48,7 +48,7 @@ void ins_tree(Node_avl* tmp, int x){
     }
 } */
 int avl_balanced(Node_avl* &tmp){
-    int difference = tmp->left->height - tmp->right->value;
+    int difference = tmp->left->height - tmp->right->height;
     return difference;
 
 }
