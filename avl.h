@@ -74,7 +74,7 @@ void right_rotation(Node_avl* &tmp, int subtree){ // subtree > 1 => right-right;
     }
 }
 
-void avl_insert(Node_avl *root, int element){
+void avl_insert(Node_avl* &root, int element){
     if(element <= root->value){
         if(root->left == nullptr) {
             root->left = new Node_avl;
