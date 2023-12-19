@@ -25,23 +25,21 @@ int avl_height_calc(Node_avl* tmp){
     if (tmp == nullptr) return -1;
     return std::max(avl_height_calc(tmp->left), avl_height_calc(tmp->right)) + 1;
 }
-Node_avl* & left_rotation(Node_avl* &tmp){
+void left_rotation(Node_avl* &tmp){
     Node_avl* x = tmp;
     Node_avl* y = tmp->right;            // left rotation
     Node_avl* y_left = y->left;
     tmp = y;
     y->left = x;
     x->right = y_left;
-    return y;
 }
-Node_avl* & right_rotation(Node_avl* &tmp){
+void right_rotation(Node_avl* &tmp){
     Node_avl* x = tmp;
     Node_avl* y = tmp->left;            // right rotation
     Node_avl* y_right = y->right;
     tmp = y;
     y->right = x;
     x->left = y_right;
-    return y;
 }
 
 void avl_fixing(Node_avl* &root){
@@ -49,16 +47,28 @@ void avl_fixing(Node_avl* &root){
     int balance_2;
     if(balance > 1){ // left-
         balance_2 = avl_balanced(root->left);
-        if(balance_2 > 1) root->left = right_rotation(root->left); // left-left case
-        if(balance_2 < -1) root->left = left_rotation(root->left); // left-right case
-        root = right_rotation(root);
+        if(balance_2 > 1) {
+            right_rotation(root->left); // left-left case
+            avl_height_calc(root);
+        }
+        if(balance_2 < -1) {
+            left_rotation(root->left); // left-right case
+            avl_height_calc(root);
+        }
+        right_rotation(root);
         avl_height_calc(root);
     }
     if(balance < -1){ // right-
         balance_2 = avl_balanced(root->right);
-        if(balance_2 > 1) root->right = right_rotation(root->right); // right-left case
-        if(balance_2 < -1) root->right = left_rotation(root->right); // right-right case
-        root = left_rotation(root);
+        if(balance_2 > 1) {
+            right_rotation(root->right); // right-left case
+            avl_height_calc(root);
+        }
+        if(balance_2 < -1) {
+            left_rotation(root->right); // right-right case
+            avl_height_calc(root);
+        }
+        left_rotation(root);
         avl_height_calc(root);
     }
 }
