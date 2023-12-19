@@ -82,6 +82,7 @@ void avl_insert(Node_avl* &root, int element){
         }
         else{
             avl_insert(root->left, element);
+            root->height = avl_height_calc(root);
         }
         avl_fixing(root);
     }
@@ -89,10 +90,11 @@ void avl_insert(Node_avl* &root, int element){
         if(root->right == nullptr) {
             root->right = new Node_avl;
             root->right->value = element;
-            root->height = avl_height_calc(root);
+            root->height = root->height = avl_height_calc(root);
         }
         else{
             avl_insert(root->right, element);
+            root->height = avl_height_calc(root);
         }
         avl_fixing(root);
     }
