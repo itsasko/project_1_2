@@ -25,7 +25,7 @@ int avl_height_calc(Node_avl* tmp){
     if (tmp == nullptr) return -1;
     return std::max(avl_height_calc(tmp->left), avl_height_calc(tmp->right)) + 1;
 }
-Node_avl* & left_rotation(Node_avl* &tmp){ // subtree > 1 => left-right; subtree < -1 => left-left
+Node_avl* & left_rotation(Node_avl* &tmp){
     Node_avl* x = tmp;
     Node_avl* y = tmp->right;            // left rotation
     Node_avl* y_left = y->left;
@@ -34,7 +34,7 @@ Node_avl* & left_rotation(Node_avl* &tmp){ // subtree > 1 => left-right; subtree
     x->right = y_left;
     return y;
 }
-Node_avl* & right_rotation(Node_avl* &tmp){ // subtree > 1 => right-right; subtree < -1 => right-left
+Node_avl* & right_rotation(Node_avl* &tmp){
     Node_avl* x = tmp;
     Node_avl* y = tmp->left;            // right rotation
     Node_avl* y_right = y->right;
