@@ -44,47 +44,47 @@ Node_avl* & right_rotation(Node_avl* &tmp){
     return y;
 }
 
+void avl_fixing(Node_avl* &root){
+    int balance = avl_balanced(root);
+    int balance_2;
+    if(balance > 1){ // left-
+        balance_2 = avl_balanced(root->left);
+        if(balance_2 > 1) root->left = right_rotation(root->left); // left-left case
+        if(balance_2 < -1) root->left = left_rotation(root->left); // left-right case
+        root = right_rotation(root);
+        avl_height_calc(root);
+    }
+    if(balance < -1){ // right-
+        balance_2 = avl_balanced(root->right);
+        if(balance_2 > 1) root->right = right_rotation(root->right); // right-left case
+        if(balance_2 < -1) root->right = left_rotation(root->right); // right-right case
+        root = left_rotation(root);
+        avl_height_calc(root);
+    }
+}
+
 void avl_insert(Node_avl* &root, int element){
     if(element <= root->value){
         if(root->left == nullptr) {
             root->left = new Node_avl;
             root->left->value = element;
             root->height = avl_height_calc(root);
-            int balance = avl_balanced(root);
-            int balance_2;
-            if(balance > 1){ // left-
-                balance_2 = avl_balanced(root->left);
-                if(balance_2 > 1) root->left = right_rotation(root->left); // left-left case
-                if(balance_2 < -1) root->left = left_rotation(root->left); // left-right case
-                root = right_rotation(root);
-            }
-            if(balance < -1){ // right-
-                balance_2 = avl_balanced(root->right);
-                if(balance_2 > 1) root->right = right_rotation(root->left); // right-left case
-                if(balance_2 < -1) root->right = left_rotation(root->left); // right-right case
-                root = left_rotation(root);
-            }
         }
         else{
             avl_insert(root->left, element);
         }
+        avl_fixing(root);
     }
     if(element > root->value){
         if(root->right == nullptr) {
             root->right = new Node_avl;
             root->right->value = element;
             root->height = avl_height_calc(root);
-            int balance = avl_balanced(root);
-            if(balance > 1){
-                root->right = left_rotation(root->right);
-            } // left rotation
-            if(balance < -1) {
-                root->left = left_rotation(root->left);
-            }
-        } // right rotation
+        }
         else{
             avl_insert(root->right, element);
         }
+        avl_fixing(root);
     }
 }
 Node_avl* avl_build(std::vector<int>& numbers){
