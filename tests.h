@@ -44,12 +44,14 @@ static bool passed_test(std::vector<int> test){
     return isPassed;
 }
 
-void testing(){
+std::pair<Node* &, Node_avl* &> testing(){
     std::vector<std::string> words(random_words_generator(-1000, 1000, "words.txt",
-                                                 "words.txt"));
+                                                 "words_amount.txt"));
 
     Node_avl* avl_root = avl_build(words);
     Node* bst_root = bst_build(words);
+    std::pair<Node* &, Node_avl* &> roots(bst_root, avl_root);
+    return roots;
 
 }
 #endif //PROJECT_1_2_TESTS_H
