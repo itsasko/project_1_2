@@ -89,7 +89,7 @@ static bool passed_test(std::vector<int> test){
     return isPassed;
 }
 
-std::tuple<Node* &, Node_avl* &> testing(){
+std::tuple<Node* &, Node_avl* &> testing_random(){
     std::vector<std::string> words(random_words_generator(-1000, 1000, "words.txt",
                                                  "words_amount.txt"));
 
@@ -97,6 +97,24 @@ std::tuple<Node* &, Node_avl* &> testing(){
     Node* bst_root = bst_build(words);
     std::tuple<Node* &, Node_avl* &> roots(bst_root, avl_root);
     return roots;
-
 }
+std::tuple<Node* &, Node_avl* &> testing_ordered(){
+    std::vector<std::string> words(random_words_generator(-1000, 1000, "words.txt",
+                                                          "words_amount.txt"));
+
+    Node_avl* avl_root = avl_build(words);
+    Node* bst_root = bst_build(words);
+    std::tuple<Node* &, Node_avl* &> roots(bst_root, avl_root);
+    return roots;
+}
+std::tuple<Node* &, Node_avl* &> testing_nearly_ordered(){
+    std::vector<std::string> words(random_words_generator(-1000, 1000, "words.txt",
+                                                          "words_amount.txt"));
+
+    Node_avl* avl_root = avl_build(words);
+    Node* bst_root = bst_build(words);
+    std::tuple<Node* &, Node_avl* &> roots(bst_root, avl_root);
+    return roots;
+}
+
 #endif //PROJECT_1_2_TESTS_H
