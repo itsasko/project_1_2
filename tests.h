@@ -9,7 +9,7 @@
 #include "avl.h"
 #include "bst.h"
 
-static std::vector<int> random_numbers_generator(int lower_bound, int upper_bound, std::string filename, std::string filename_sizes){
+static std::vector<std::string> random_words_generator(int lower_bound, int upper_bound, std::string filename, std::string filename_sizes){
 
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -18,20 +18,23 @@ static std::vector<int> random_numbers_generator(int lower_bound, int upper_boun
     std::ofstream f_out(filename_sizes, std::ios::app);
 
     std::uniform_int_distribution<int> dist_elements(lower_bound, upper_bound);
-    std::uniform_int_distribution<int> dist_size(1, 50000);
-    std::vector<int> random_test;
-    int test_vector_size = dist_size(gen);
+    std::uniform_int_distribution<int> dist_char(65, 122);
+    std::vector<std::string> random_test;
+    int test_vector_size = dist_char(gen);
     f_out << test_vector_size << std::endl;
     int element;
     for(int i = 0; i < test_vector_size; i++){
-        element = dist_elements(gen);
-        random_test.push_back(element);
+        int string_length = dist_elements(gen);
+        std::string random_string;
+        for (int j = 0; j < string_length; j++) {
+            random_string.push_back(static_cast<char>(dist_char(gen)));
+        }
+        random_test.push_back(random_string);
         fout << element << " ";
     }
     fout << std::endl;
     fout.close();
     return random_test;
-
 }
 static bool passed_test(std::vector<int> test){
     bool isPassed = true;
@@ -43,14 +46,9 @@ static bool passed_test(std::vector<int> test){
     return isPassed;
 }
 
-void print_vector(std::vector<int> some_vector){
-    for (auto i : some_vector) std::cout << i << " ";
-    std::cout << std::endl;
-}
-
 void avl_testing(){
-    std::vector<int> test(random_numbers_generator(-1000, 1000, "quick_sort_numbers.txt",
-                                                   "quick_sort_sizes.txt"));
+    std::vector<std::string> test(random_words_generator(-1000, 1000, "quick_sort_numbers.txt",
+                                                 "quick_sort_sizes.txt"));
 
     std::vector<int> test2(test);
     std::sort(test2.begin(), test2.end());
