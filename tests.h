@@ -21,8 +21,6 @@ static std::vector<std::string> random_words_generator(int lower_bound, int uppe
     std::uniform_int_distribution<int> dist_char(65, 122);
     std::vector<std::string> random_test;
     int test_vector_size = dist_char(gen);
-    f_out << test_vector_size << std::endl;
-    int element;
     for(int i = 0; i < test_vector_size; i++){
         int string_length = dist_elements(gen);
         std::string random_string;
@@ -30,7 +28,7 @@ static std::vector<std::string> random_words_generator(int lower_bound, int uppe
             random_string.push_back(static_cast<char>(dist_char(gen)));
         }
         random_test.push_back(random_string);
-        fout << element << " ";
+        fout << random_string << " ";
     }
     fout << std::endl;
     fout.close();
@@ -46,27 +44,12 @@ static bool passed_test(std::vector<int> test){
     return isPassed;
 }
 
-void avl_testing(){
-    std::vector<std::string> test(random_words_generator(-1000, 1000, "quick_sort_numbers.txt",
-                                                 "quick_sort_sizes.txt"));
+void testing(){
+    std::vector<std::string> words(random_words_generator(-1000, 1000, "words.txt",
+                                                 "words.txt"));
 
-    std::vector<int> test2(test);
-    std::sort(test2.begin(), test2.end());
-    avl(test);
-
-    for (auto x : test) {
-        std::cout << x << ", ";
-    }
-    std::cout << std::endl;
-    for (auto x : test2) {
-        std::cout << x << ", ";
-    }
-    std::cout << std::endl;
-
-    assert(test2 == test);
-
-    if(passed_test(test)) std::cout << "PASSED" << std::endl;
-    else std::cout << "NOT PASSED" << std::endl;
+    Node_avl* avl_root = avl_build(words);
+    Node* bst_root = bst_build(words);
 
 }
 #endif //PROJECT_1_2_TESTS_H
