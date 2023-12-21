@@ -52,6 +52,33 @@ static std::vector<std::string> random_words_generator(int lower_bound, int uppe
     fout.close();
     return random_test;
 }
+static std::vector<std::string> ordered_random_words_generator(int lower_bound, int upper_bound, std::string filename, std::string filename_sizes){
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    std::ofstream fout(filename, std::ios::app);
+    std::ofstream f_out(filename_sizes, std::ios::app);
+
+    std::uniform_int_distribution<int> dist_elements(lower_bound, upper_bound);
+    std::uniform_int_distribution<int> dist_char(65, 122);
+    std::vector<std::string> random_test;
+    int test_vector_size = dist_char(gen);
+    for(int i = 0; i < test_vector_size; i++){
+        int string_length = dist_elements(gen);
+        std::string random_string;
+        for (int j = 0; j < string_length; j++) {
+            random_string.push_back(static_cast<char>(dist_char(gen)));
+        }
+        random_test.push_back(random_string);
+    }
+    std::sort(random_test.begin(), random_test.end());
+    for(auto i : random_test) fout << i << std::endl;
+    fout << std::endl;
+    fout.close();
+    return random_test;
+}
+
 static bool passed_test(std::vector<int> test){
     bool isPassed = true;
     for(int i = 1; i < test.size(); i++){
