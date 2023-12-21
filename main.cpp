@@ -16,8 +16,7 @@ void data_recording_ins(std::tuple<long long, long long> insertion_pair){
     fa_out.close();
 }
 
-void time_measurement_insertion(){
-    std::tuple<Node* &, Node_avl* &> roots = testing();
+void time_measurement_insertion(std::tuple<Node* &, Node_avl* &> roots ){
     std::string random_word = gen_random_word(0, 1000);
 
     using namespace std::chrono;
@@ -59,8 +58,7 @@ void data_recording_search(std::tuple<long long, long long> search_pair, bool fi
     fa_out.close();
 }
 
-void time_measurement_searching(){
-    std::tuple<Node* &, Node_avl* &> roots = testing();
+void time_measurement_searching(std::tuple<Node* &, Node_avl* &> roots){
     std::string random_word = gen_random_word(0, 1000);
 
     using namespace std::chrono;
@@ -76,7 +74,7 @@ void time_measurement_searching(){
     auto duration_bst_ins = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
 
     start = std::chrono::steady_clock::now();
-    avl_insert(std::get<1>(roots), random_word);
+    avl_search(std::get<1>(roots), random_word);
     end = std::chrono::steady_clock::now();
 
     auto duration_avl_ins = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
@@ -87,8 +85,17 @@ void time_measurement_searching(){
 }
 
 int main() {
-    for(int i = 0; i < 10000; i++){
+    std::tuple<Node* &, Node_avl* &> roots_1 = testing_ordered();
+    std::tuple<Node* &, Node_avl* &> roots_2 = testing_nearly_ordered();
+    std::tuple<Node* &, Node_avl* &> roots_3 = testing_random();
 
+    for(int i = 0; i < 10000; i++){
+        time_measurement_insertion(roots_1);
+        time_measurement_insertion(roots_2);
+        time_measurement_insertion(roots_3);        time_measurement_insertion(roots_1);
+        time_measurement_searching(roots_3);        time_measurement_insertion(roots_1);
+        time_measurement_searching(roots_2);
+        time_measurement_searching(roots_3);
     }
     return 0;
 }
