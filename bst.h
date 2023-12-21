@@ -4,7 +4,7 @@
 #include <vector>
 
 struct Node {
-    int value;
+    std::string value;
     Node *left = nullptr;
     Node *right = nullptr;
 };
@@ -15,7 +15,7 @@ void delete_tree(Node *root) {
         delete root;
     }
 }
-void bst_insert(Node *root, int element){
+void bst_insert(Node *root, std::string element){
     if(element <= root->value){
         if(root->left == nullptr) {
             root->left = new Node;
@@ -36,7 +36,7 @@ void bst_insert(Node *root, int element){
     }
 }
 
-Node* bst_build(std::vector<int>& numbers){
+Node* bst_build(std::vector<std::string>& numbers){
     Node *root = new Node;
     root->value = numbers[0];
     Node *tmp = root;
@@ -46,7 +46,7 @@ Node* bst_build(std::vector<int>& numbers){
     return root;
 }
 
-void bst_output(Node* &tmp, std::vector<int>& sorted){
+void bst_output(Node* &tmp, std::vector<std::string>& sorted){
     if(tmp != nullptr){
         bst_output(tmp->left, sorted);
         sorted.push_back(tmp->value);
@@ -69,7 +69,7 @@ bool bst_search(Node_avl* root, std::string &searching_el){
     }
 }
 
-void bst(std::vector<int>& numbers){
+void bst(std::vector<std::string>& numbers){
     Node* tmp = bst_build(numbers);
     Node* tmp_ = tmp;
     numbers.clear();
