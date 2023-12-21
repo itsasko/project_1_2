@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <vector>
+#include <tuple>
 #include <algorithm>
 #include <random>
 #include <cassert>
@@ -10,7 +11,7 @@
 #include "bst.h"
 
 
-std::string random_word(int lower_bound, int upper_bound) {
+std::string gen_random_word(int lower_bound, int upper_bound) {
     std::random_device rd;
     std::mt19937 gen(rd());
 
@@ -61,13 +62,13 @@ static bool passed_test(std::vector<int> test){
     return isPassed;
 }
 
-std::pair<Node* &, Node_avl* &> testing(){
+std::tuple<Node* &, Node_avl* &, int> testing(){
     std::vector<std::string> words(random_words_generator(-1000, 1000, "words.txt",
                                                  "words_amount.txt"));
 
     Node_avl* avl_root = avl_build(words);
     Node* bst_root = bst_build(words);
-    std::pair<Node* &, Node_avl* &> roots(bst_root, avl_root);
+    std::tuple<Node* &, Node_avl* &, int> roots(bst_root, avl_root, words.size());
     return roots;
 
 }
