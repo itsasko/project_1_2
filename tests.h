@@ -9,6 +9,23 @@
 #include "avl.h"
 #include "bst.h"
 
+
+std::string random_word(int lower_bound, int upper_bound) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    std::uniform_int_distribution<int> dist_elements(lower_bound, upper_bound);
+    std::uniform_int_distribution<int> dist_char(65, 122);
+
+    int string_length = dist_elements(gen);
+    std::string random_string;
+    for (int j = 0; j < string_length; j++) {
+        random_string.push_back(static_cast<char>(dist_char(gen)));
+    }
+
+    return random_string;
+}
+
 static std::vector<std::string> random_words_generator(int lower_bound, int upper_bound, std::string filename, std::string filename_sizes){
 
     std::random_device rd;
