@@ -98,50 +98,12 @@ void avl_insert(Node_avl* &root, std::string element){
     }
 }
 
-void prn(Node_avl *ptr, int depth=0) {
-    if (ptr) {
-        prn(ptr->left, depth + 1);
-        for (int i = 0 ; i < depth ; i++) {
-            std::cout << "   ";
-        }
-        std::cout << ptr->value << " " << ptr->height << std::endl;
-
-        prn(ptr->right, depth + 1);
-    }
-}
-
-
-int check(Node_avl *ptr) {
-    if (ptr) {
-        int left = check(ptr->left);
-        int right = check(ptr->right);
-
-        int balance = left - right;
-
-        assert( balance > -2 && balance < 2);
-
-        int h = std::max(left, right) + 1;
-
-        assert( h == ptr->height);
-        return h;
-    }
-    return -1;
-}
-
 Node_avl* avl_build(std::vector<std::string>& words){
     Node_avl *root = new Node_avl;
     root->value = words[0];
     Node_avl *tmp = root;
     for(int i = 1; i < words.size(); i++){
-        prn(root);
-        std::cout << " >>>>>>>>>>>>>>>> " << std::endl;
-        std::cout << words[i] << std::endl;
-        std::cout << " ============== " << std::endl;
         avl_insert(root, words[i]);
-        prn(root);
-
-        std::cout << " <<<<<<<<<<<<<<< " << std::endl;
-        check(root);
     }
     return root;
 }
@@ -153,12 +115,27 @@ void avl_output(Node_avl* &tmp, std::vector<std::string>& sorted){
     }
     return;
 }
-void avl(std::vector<std::string>& words){
-    Node_avl* tmp = avl_build(words);
-    Node_avl* tmp_ = tmp;
+
+bool avl_search(Node_avl* root, std::string &searching_el){
+    if(searching_el == root->value) return true;
+    else{
+        if(searching_el > root->value){
+            if(root->right != nullptr) return avl_search(root->right, searching_el);
+            else return false;
+        }
+        else{
+            if(root->left != nullptr) return avl_search(root->left, searching_el);
+            else return false;
+        }
+    }
+}
+
+void avl_sort(std::vector<std::string>& words){
+    Node_avl* root = avl_build(words);
+    Node_avl* aux = root;
     words.clear();
-    avl_output(tmp, words);
-    delete_tree(tmp_);
+    avl_output(root, words);
+    delete_tree(aux);
 }
 
 #endif //PROJECT_1_2_AVL_H
