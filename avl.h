@@ -2,7 +2,8 @@
 #define PROJECT_1_2_AVL_H
 #include <cassert>
 struct Node_avl {
-    int value, height = 0;
+    std::string value;
+    int height = 0;
     Node_avl *left = nullptr;
     Node_avl *right = nullptr;
 };
@@ -70,7 +71,7 @@ void avl_fixing(Node_avl* &root){
     }
 }
 
-void avl_insert(Node_avl* &root, int element){
+void avl_insert(Node_avl* &root, std::string element){
     if(element <= root->value){
         if(root->left == nullptr) {
             root->left = new Node_avl;
@@ -127,16 +128,16 @@ int check(Node_avl *ptr) {
     return -1;
 }
 
-Node_avl* avl_build(std::vector<int>& numbers){
+Node_avl* avl_build(std::vector<std::string>& words){
     Node_avl *root = new Node_avl;
-    root->value = numbers[0];
+    root->value = words[0];
     Node_avl *tmp = root;
-    for(int i = 1; i < numbers.size(); i++){
+    for(int i = 1; i < words.size(); i++){
         prn(root);
         std::cout << " >>>>>>>>>>>>>>>> " << std::endl;
-        std::cout << numbers[i] << std::endl;
+        std::cout << words[i] << std::endl;
         std::cout << " ============== " << std::endl;
-        avl_insert(root, numbers[i]);
+        avl_insert(root, words[i]);
         prn(root);
 
         std::cout << " <<<<<<<<<<<<<<< " << std::endl;
@@ -144,7 +145,7 @@ Node_avl* avl_build(std::vector<int>& numbers){
     }
     return root;
 }
-void avl_output(Node_avl* &tmp, std::vector<int>& sorted){
+void avl_output(Node_avl* &tmp, std::vector<std::string>& sorted){
     if(tmp != nullptr){
         avl_output(tmp->left, sorted);
         sorted.push_back(tmp->value);
@@ -152,11 +153,11 @@ void avl_output(Node_avl* &tmp, std::vector<int>& sorted){
     }
     return;
 }
-void avl(std::vector<int>& numbers){
-    Node_avl* tmp = avl_build(numbers);
+void avl(std::vector<std::string>& words){
+    Node_avl* tmp = avl_build(words);
     Node_avl* tmp_ = tmp;
-    numbers.clear();
-    avl_output(tmp, numbers);
+    words.clear();
+    avl_output(tmp, words);
     delete_tree(tmp_);
 }
 
