@@ -55,15 +55,15 @@ void bst_output(Node* &tmp, std::vector<std::string>& sorted){
     return;
 }
 
-bool bst_search(Node_avl* root, std::string &searching_el){
+bool bst_search(Node* root, std::string &searching_el){
     if(searching_el == root->value) return true;
     else{
         if(searching_el > root->value){
-            if(root->right != nullptr) return avl_search(root->right, searching_el);
+            if(root->right != nullptr) return bst_search(root->right, searching_el);
             else return false;
         }
         else{
-            if(root->left != nullptr) return avl_search(root->left, searching_el);
+            if(root->left != nullptr) return bst_search(root->left, searching_el);
             else return false;
         }
     }
