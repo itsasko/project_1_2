@@ -15,8 +15,11 @@ void delete_tree(Node *root) {
         delete root;
     }
 }
-void bst_insert(Node *root, std::string element){
+void bst_insert(Node *&root, std::string element){
+    //std::cout << element << std::endl;
+
     if(element <= root->value){
+        //std::cout << element << " <= " << root->value << std::endl;
         if(root->left == nullptr) {
             root->left = new Node;
             root->left->value = element;
@@ -25,7 +28,8 @@ void bst_insert(Node *root, std::string element){
             bst_insert(root->left, element);
         }
     }
-    if(element > root->value){
+    else if(element > root->value){
+        //std::cout << element << " > " << root->value << std::endl;
         if(root->right == nullptr) {
             root->right = new Node;
             root->right->value = element;
@@ -36,12 +40,12 @@ void bst_insert(Node *root, std::string element){
     }
 }
 
-Node* bst_build(std::vector<std::string>& numbers){
+Node* bst_build(std::vector<std::string>& words){
     Node *root = new Node;
-    root->value = numbers[0];
+    root->value = words[0];
     Node *tmp = root;
-    for(int i = 1; i < numbers.size(); i++){
-        bst_insert(root, numbers[i]);
+    for(int i = 1; i < words.size(); i++){
+        bst_insert(root, words[i]);
     }
     return root;
 }
@@ -55,7 +59,7 @@ void bst_output(Node* &tmp, std::vector<std::string>& sorted){
     return;
 }
 
-bool bst_search(Node* root, std::string &searching_el){
+bool bst_search(Node* root, std::string searching_el){
     if(searching_el == root->value) return true;
     else{
         if(searching_el > root->value){

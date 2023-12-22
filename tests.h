@@ -16,7 +16,7 @@ std::string gen_random_word(int lower_bound, int upper_bound) {
     std::mt19937 gen(rd());
 
     std::uniform_int_distribution<int> dist_elements(lower_bound, upper_bound);
-    std::uniform_int_distribution<int> dist_char(65, 122);
+    std::uniform_int_distribution<int> dist_char(65, 90);
 
     int string_length = dist_elements(gen);
     std::string random_string;
@@ -36,7 +36,7 @@ static std::vector<std::string> random_words_generator(int lower_bound, int uppe
     std::ofstream f_out(filename_sizes, std::ios::app);
 
     std::uniform_int_distribution<int> dist_elements(lower_bound, upper_bound);
-    std::uniform_int_distribution<int> dist_char(65, 122);
+    std::uniform_int_distribution<int> dist_char(65, 90);
     std::vector<std::string> random_test;
     int test_vector_size = dist_char(gen);
     for(int i = 0; i < test_vector_size; i++){
@@ -48,6 +48,7 @@ static std::vector<std::string> random_words_generator(int lower_bound, int uppe
         random_test.push_back(random_string);
         fout << random_string << " ";
     }
+    f_out << test_vector_size << std::endl;
     fout << std::endl;
     fout.close();
     return random_test;
@@ -75,6 +76,43 @@ static std::vector<std::string> ordered_random_words_generator(int lower_bound, 
     std::sort(random_test.begin(), random_test.end());
     for(auto i : random_test) fout << i << std::endl;
     fout << std::endl;
+    f_out << test_vector_size << std::endl;
+    fout.close();
+    return random_test;
+}
+
+static std::vector<std::string> nearly_ordered_random_words_generator(int lower_bound, int upper_bound, std::string filename, std::string filename_sizes){
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    std::ofstream fout(filename, std::ios::app);
+    std::ofstream f_out(filename_sizes, std::ios::app);
+
+    std::uniform_int_distribution<int> dist_elements(lower_bound, upper_bound);
+    std::uniform_int_distribution<int> dist_char(65, 122);
+    std::vector<std::string> random_test;
+    int test_vector_size = dist_char(gen);
+    for(int i = 0; i < test_vector_size-11; i++){
+        int string_length = dist_elements(gen);
+        std::string random_string;
+        for (int j = 0; j < string_length; j++) {
+            random_string.push_back(static_cast<char>(dist_char(gen)));
+        }
+        random_test.push_back(random_string);
+    }
+    std::sort(random_test.begin(), random_test.end());
+    for(int i = 0; i < 11; i++){
+        int string_length = dist_elements(gen);
+        std::string random_string;
+        for (int j = 0; j < string_length; j++) {
+            random_string.push_back(static_cast<char>(dist_char(gen)));
+        }
+        random_test.push_back(random_string);
+    }
+    for(auto i : random_test) fout << i << std::endl;
+    fout << std::endl;
+    f_out << test_vector_size << std::endl;
     fout.close();
     return random_test;
 }
@@ -87,34 +125,6 @@ static bool passed_test(std::vector<int> test){
         }
     }
     return isPassed;
-}
-
-std::tuple<Node* &, Node_avl* &> testing_random(){
-    std::vector<std::string> words(random_words_generator(-1000, 1000, "words.txt",
-                                                 "words_amount.txt"));
-
-    Node_avl* avl_root = avl_build(words);
-    Node* bst_root = bst_build(words);
-    std::tuple<Node* &, Node_avl* &> roots(bst_root, avl_root);
-    return roots;
-}
-std::tuple<Node* &, Node_avl* &> testing_ordered(){
-    std::vector<std::string> words(random_words_generator(-1000, 1000, "words.txt",
-                                                          "words_amount.txt"));
-
-    Node_avl* avl_root = avl_build(words);
-    Node* bst_root = bst_build(words);
-    std::tuple<Node* &, Node_avl* &> roots(bst_root, avl_root);
-    return roots;
-}
-std::tuple<Node* &, Node_avl* &> testing_nearly_ordered(){
-    std::vector<std::string> words(random_words_generator(-1000, 1000, "words.txt",
-                                                          "words_amount.txt"));
-
-    Node_avl* avl_root = avl_build(words);
-    Node* bst_root = bst_build(words);
-    std::tuple<Node* &, Node_avl* &> roots(bst_root, avl_root);
-    return roots;
 }
 
 #endif //PROJECT_1_2_TESTS_H
