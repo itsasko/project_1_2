@@ -10,7 +10,7 @@ void data_recording_ins(std::tuple<long long, long long> insertion_pair){
     std::ofstream fa_out("avl_insert_time_taken.txt", std::ios::app);
 
     fb_out << std::get<0>(insertion_pair) << std::endl;
-    fb_out << std::get<1>(insertion_pair) << std::endl;
+    fa_out << std::get<1>(insertion_pair) << std::endl;
 
     fb_out.close();
     fa_out.close();
@@ -44,7 +44,7 @@ void data_recording_search(std::tuple<long long, long long> search_pair){
 
 
     fb_out << std::get<0>(search_pair) << std::endl;
-    fb_out << std::get<1>(search_pair) << std::endl;
+    fa_out << std::get<1>(search_pair) << std::endl;
 
     fb_out.close();
     fa_out.close();
@@ -55,7 +55,7 @@ void data_recording_search_if_not_ex(std::tuple<long long, long long> search_pai
 
 
     fb_out << std::get<0>(search_pair) << std::endl;
-    fb_out << std::get<1>(search_pair) << std::endl;
+    fa_out << std::get<1>(search_pair) << std::endl;
 
     fb_out.close();
     fa_out.close();

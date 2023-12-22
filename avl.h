@@ -116,7 +116,7 @@ void avl_output(Node_avl* &tmp, std::vector<std::string>& sorted){
     return;
 }
 
-bool avl_search(Node_avl* root, std::string &searching_el){
+bool avl_search(Node_avl* root, std::string searching_el){
     if(searching_el == root->value) return true;
     else{
         if(searching_el > root->value){
