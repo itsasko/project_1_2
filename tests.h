@@ -36,9 +36,10 @@ static std::vector<std::string> random_words_generator(int lower_bound, int uppe
     std::ofstream f_out(filename_sizes, std::ios::app);
 
     std::uniform_int_distribution<int> dist_elements(lower_bound, upper_bound);
+    std::uniform_int_distribution<int> dist_length(0, 100);
     std::uniform_int_distribution<int> dist_char(65, 90);
     std::vector<std::string> random_test;
-    int test_vector_size = dist_char(gen);
+    int test_vector_size = dist_elements(gen);
     for(int i = 0; i < test_vector_size; i++){
         int string_length = dist_elements(gen);
         std::string random_string;

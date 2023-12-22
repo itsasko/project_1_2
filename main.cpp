@@ -5,9 +5,9 @@
 #include "bst.h"
 #include "avl.h"
 
-void data_recording_ins(std::tuple<long long, long long> insertion_pair){
-    std::ofstream fb_out("bst_insert_time_taken.txt", std::ios::app);
-    std::ofstream fa_out("avl_insert_time_taken.txt", std::ios::app);
+void data_recording_ins(std::tuple<long long, long long> insertion_pair, std::string filename_b, std::string filename_a){
+    std::ofstream fb_out(filename_b, std::ios::app);
+    std::ofstream fa_out(filename_a, std::ios::app);
 
     fb_out << std::get<0>(insertion_pair) << std::endl;
     fa_out << std::get<1>(insertion_pair) << std::endl;
@@ -16,7 +16,7 @@ void data_recording_ins(std::tuple<long long, long long> insertion_pair){
     fa_out.close();
 }
 
-void time_measurement_insertion(std::vector<std::string> &words){
+void time_measurement_insertion(std::vector<std::string> &words, std::string filename_b, std::string filename_a){
     using namespace std::chrono;
 
     auto start = std::chrono::steady_clock::now();
@@ -35,12 +35,13 @@ void time_measurement_insertion(std::vector<std::string> &words){
 
     std::tuple<long long, long long> duration(duration_bst_ins, duration_avl_ins);
 
-    data_recording_ins(duration);
+    data_recording_ins(duration, filename_b, filename_a);
 }
 
-void data_recording_search(std::tuple<long long, long long> search_pair){
-    std::ofstream fb_out("bst_search_time_taken.txt", std::ios::app);
-    std::ofstream fa_out("avl_search_time_taken.txt", std::ios::app);
+void data_recording_search(std::tuple<long long, long long> search_pair, std::string filename_b, std::string filename_a){
+
+    std::ofstream fb_out(filename_b, std::ios::app);
+    std::ofstream fa_out(filename_a, std::ios::app);
 
 
     fb_out << std::get<0>(search_pair) << std::endl;
@@ -49,9 +50,9 @@ void data_recording_search(std::tuple<long long, long long> search_pair){
     fb_out.close();
     fa_out.close();
 }
-void data_recording_search_if_not_ex(std::tuple<long long, long long> search_pair){
-    std::ofstream fb_out("bst_search_time_taken_non_existing.txt", std::ios::app);
-    std::ofstream fa_out("avl_search_time_taken_non_existing.txt", std::ios::app);
+void data_recording_search_if_not_ex(std::tuple<long long, long long> search_pair, std::string filename_b_, std::string filename_a_){
+    std::ofstream fb_out(filename_b_, std::ios::app);
+    std::ofstream fa_out(filename_a_, std::ios::app);
 
 
     fb_out << std::get<0>(search_pair) << std::endl;
@@ -62,7 +63,8 @@ void data_recording_search_if_not_ex(std::tuple<long long, long long> search_pai
 }
 
 
-void time_measurement_searching(std::vector<std::string> &words, std::string random_word){
+void time_measurement_searching(std::vector<std::string> &words, std::string random_word, std::string filename_b,
+                                std::string filename_a, std::string filename_b_, std::string filename_a_){
 
 
     using namespace std::chrono;
@@ -88,12 +90,12 @@ void time_measurement_searching(std::vector<std::string> &words, std::string ran
 
     std::tuple<long long, long long> duration(duration_bst_ins, duration_avl_ins);
 
-    if(file) data_recording_search(duration);
-    else data_recording_search_if_not_ex(duration);
+    if(file) data_recording_search(duration, filename_a, filename_b);
+    else data_recording_search_if_not_ex(duration, filename_b_, filename_a_);
 }
 
 int main() {
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < 1000; i++){
         std::vector<std::string> words_random(random_words_generator(1, 1000, "words_random.txt",
                                                                      "words_random_amount_2.txt"));
         std::vector<std::string> words_ordered(ordered_random_words_generator(1, 1000, "words_ordered.txt",
@@ -104,15 +106,31 @@ int main() {
         std::string word_from_tree = words_random[0];
         std::string word_from_tree_2 = words_ordered[0];
         std::string word_from_tree_3 = words_ordered_nearly[0];
-        time_measurement_insertion(words_random);
-        time_measurement_insertion(words_ordered);
-        time_measurement_insertion(words_ordered_nearly);
-        time_measurement_searching(words_random, word_from_tree);
-        time_measurement_searching(words_ordered, word_from_tree_2);
-        time_measurement_searching(words_ordered_nearly, word_from_tree_3);
-        time_measurement_searching(words_random, random_word);
-        time_measurement_searching(words_ordered, random_word);
-        time_measurement_searching(words_ordered_nearly, random_word);
+
+        time_measurement_insertion(words_random, "bst_insert_time_taken_random.txt", "avl_insert_time_taken_random.txt");
+        time_measurement_insertion(words_ordered, "bst_insert_time_taken_ordered.txt", "avl_insert_time_taken_ordered.txt");
+        time_measurement_insertion(words_ordered_nearly, "bst_insert_time_taken_nearly.txt", "avl_insert_time_taken_nearly.txt");
+
+        time_measurement_searching(words_random, word_from_tree, "bst_search_time_taken_random.txt",
+                                   "avl_search_time_taken_random.txt", "bst_search_time_taken_non_existing_random.txt",
+                                   "avl_search_time_taken_non_existing_random.txt");
+        time_measurement_searching(words_ordered, word_from_tree_2, "bst_search_time_taken_ordered.txt",
+                                   "avl_search_time_taken_ordered.txt", "bst_search_time_taken_non_existing_ordered.txt",
+                                   "avl_search_time_taken_non_existing_ordered.txt");
+        time_measurement_searching(words_ordered_nearly, word_from_tree_3, "bst_search_time_taken_nearly.txt",
+                                   "avl_search_time_taken_nearly.txt", "bst_search_time_taken_non_existing_nearly.txt",
+                                   "avl_search_time_taken_non_existing_nearly.txt");
+        time_measurement_searching(words_random, random_word, "bst_search_time_taken_random.txt",
+                                   "avl_search_time_taken_random.txt", "bst_search_time_taken_non_existing_random.txt",
+                                   "avl_search_time_taken_non_existing_random.txt");
+        time_measurement_searching(words_ordered, random_word, "bst_search_time_taken_ordered.txt",
+                                   "avl_search_time_taken_ordered.txt", "bst_search_time_taken_non_existing_ordered.txt",
+                                   "avl_search_time_taken_non_existing_ordered.txt");
+        time_measurement_searching(words_ordered_nearly, random_word, "bst_search_time_taken_nearly.txt",
+                                   "avl_search_time_taken_nearly.txt", "bst_search_time_taken_non_existing_nearly.txt",
+                                   "avl_search_time_taken_non_existing_nearly.txt");
+
+
     }
     return 0;
 }
